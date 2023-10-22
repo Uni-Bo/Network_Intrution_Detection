@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Network Intrusion Detection</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="bg-primary text-white p-3">Network Intrusion Detection</h1>
+        <form id="myForm" action="/predict" method="post" class="bg-light p-3 rounded">
+            <div class="form-group">
+                <label for="protocol_type">Protocol Type:</label>
+                <input type="text" class="form-control" id="protocol_type" name="protocol_type" required>
+            </div>
+
+            <div class="form-group">
+                <label for="service">Service:</label>
+                <input type="text" class="form-control" id="service" name="service" required>
+            </div>
+
+            <div class="form-group">
+                <label for="flag">Flag:</label>
+                <input type="text" class="form-control" id="flag" name="flag" required>
+            </div>
+
+            <div class="form-group">
+                <label for="src_bytes">Source Bytes:</label>
+                <input type="text" class="form-control" id="src_bytes" name="src_bytes" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dst_bytes">Destination Bytes:</label>
+                <input type="text" class="form-control" id="dst_bytes" name="dst_bytes" required>
+            </div>
+
+            <div class="form-group">
+                <label for="same_srv_rate">Same Service Rate:</label>
+                <input type="text" class="form-control" step="0.01" id="same_srv_rate" name="same_srv_rate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="diff_srv_rate">Different Service Rate:</label>
+                <input type="text" class="form-control" id="diff_srv_rate" name="diff_srv_rate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dst_host_srv_count">Destination Host Service Count:</label>
+                <input type="text" class="form-control" id="dst_host_srv_count" name="dst_host_srv_count" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dst_host_same_srv_rate">Destination Host Same Service Rate:</label>
+                <input type="text" class="form-control" step="0.01" id="dst_host_same_srv_rate" name="dst_host_same_srv_rate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dst_host_same_srv_port_rate">Destination Host Same Service Port Rate:</label>
+                <input type="text" class="form-control" id="dst_host_same_srv_port_rate" name="dst_host_same_srv_port_rate" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Predict</button>
+        </form>
+
+
+
+        <div id="hiddenDiv" style="display: none;">
+            Prediction: <span id="predictionValue"></span>
+        </div>
+        <script>
+            const myForm = document.getElementById('myForm');
+            const hiddenDiv = document.getElementById('hiddenDiv');
+            const predictionValueSpan = document.getElementById('predictionValue');
+    
+            myForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const formData = new FormData(myForm);
+    
+                // Make an AJAX request to your Flask server for prediction
+                fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response
+                    const predictionValue = data.prediction;
+                    predictionValueSpan.textContent = predictionValue;
+                    hiddenDiv.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error occurred during prediction:', error);
+                });
+            });
+        </script>
+</body>
+</html>
