@@ -4,9 +4,6 @@
 
 Welcome to the Network Intrusion Detection System (NIDS) repository! This is where advanced cybersecurity techniques are put to use to safeguard your network from potential intrusions. The code in this repository showcases a robust NIDS designed to detect and respond to network threats effectively.
 
-### System Architecture:
-![NIDS Architecture](images/architecture.png)
-
 ### Frontend:
 ![NIDS Architecture](images/frontend.png)
 
